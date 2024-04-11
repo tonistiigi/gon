@@ -47,6 +47,8 @@ type AppleId struct {
 	// specified if you're using an Apple ID account that has multiple
 	// teams.
 	Provider string `hcl:"provider,optional"`
+
+	KeyChainProfile string `hcl:"keychain_profile,optional"`
 }
 
 // Notarize are the options for notarizing a pre-built file.

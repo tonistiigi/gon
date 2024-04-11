@@ -61,16 +61,26 @@ func info(ctx context.Context, uuid string, opts *Options) (*Info, error) {
 		cmd.Path = path
 	}
 
-	cmd.Args = []string{
+	args := []string{
 		filepath.Base(cmd.Path),
 		"notarytool",
 		"info",
 		uuid,
 		"--apple-id", opts.DeveloperId,
-		"--password", opts.Password,
+	}
+
+	if opts.KeyChainProfile != "" {
+		args = append(args, "--keychain-profile", opts.KeyChainProfile)
+	} else {
+		args = append(args, "--password", opts.Password)
+	}
+
+	args = append(args,
 		"--team-id", opts.Provider,
 		"--output-format", "plist",
-	}
+	)
+
+	cmd.Args = args
 
 	// We store all output in out for logging and in case there is an error
 	var out, combined bytes.Buffer

@@ -36,15 +36,26 @@ func upload(ctx context.Context, opts *Options) (string, error) {
 		cmd.Path = path
 	}
 
-	cmd.Args = []string{
+	args := []string{
 		filepath.Base(cmd.Path),
 		"notarytool",
-		"submit", opts.File,
+		"submit",
+		opts.File,
 		"--apple-id", opts.DeveloperId,
-		"--password", opts.Password,
+	}
+
+	if opts.KeyChainProfile != "" {
+		args = append(args, "--keychain-profile", opts.KeyChainProfile)
+	} else {
+		args = append(args, "--password", opts.Password)
+	}
+
+	args = append(args,
 		"--team-id", opts.Provider,
 		"--output-format", "plist",
-	}
+	)
+
+	cmd.Args = args
 
 	// We store all output in out for logging and in case there is an error
 	var out, combined bytes.Buffer

@@ -24,6 +24,8 @@ type Options struct {
 	// read from the keychain and environment variables, respectively.
 	Password string
 
+	KeyChainProfile string
+
 	// Provider is the Apple Connect provider to use. This is optional
 	// and is only used for Apple Connect accounts that support multiple
 	// providers.
